@@ -61,7 +61,7 @@ public class MenuPane extends StackPane {
       }
     });
     gamePane.getChildren().add(pause);
-    back = new Rectangle(600, 370, Color.WHITE);
+    back = new Rectangle(600, 370, Color.WHITE);//600x370 - size of scene
     back.setOpacity(0.5);
     getChildren().add(back);
     setAlignment(Pos.CENTER);
