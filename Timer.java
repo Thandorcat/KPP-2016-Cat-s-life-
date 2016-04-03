@@ -16,21 +16,26 @@ public class Timer extends AnimationTimer {
       care.tick();
       stfood = food.getState();
       stcare = care.getState();
-      if (stfood == 0)
+      if (stfood == 0){
         emotion.setView(1);
+      }
       else {
-        if (stcare == 0)
+        if (stcare == 0){
           emotion.setView(0);
+        }
         else {
-          if (stcare == 2 && stfood == 2)
+          if (stcare == 2 && stfood == 2){
             emotion.setView(3);
-          else
+          }
+          else{
             emotion.setView(2);
+          }
         }
       }
       times = 0;
-    } else
+    } else{
       times++;
+    }
   }
 
   public void setNeeds(Needs fd, Needs cr) {
