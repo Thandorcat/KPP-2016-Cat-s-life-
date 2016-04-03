@@ -23,12 +23,13 @@ public class Needs {
       @Override
       public void handle(ActionEvent e) {
         if (prog.getValue() < 1.0) {
-          if (prog.getValue() > 1 - plus)
+          if (prog.getValue() > 1 - plus) {
             prog.setValue(1.0);
-          else if (prog.getValue() < 0)
+          } else if (prog.getValue() < 0) {
             prog.setValue(plus);
-          else
+          } else {
             prog.setValue(prog.getValue() + plus);
+          }
           btn.setDisable(true);
         }
       }
