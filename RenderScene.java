@@ -30,7 +30,8 @@ public class RenderScene extends Application {
     ImageView table = new ImageView("Sprites/table.png");
 
     ImageView emotion = new ImageView("Sprites/cats.png");
-    emotion.setViewport(new Rectangle2D(570, 25 + 60, 75, 60));//570x25 - start of faces on sprite, 75x60 size of face
+    emotion.setViewport(new Rectangle2D(570, 25 + 60, 75, 60));// 570x25 - start of faces on sprite,
+                                                               // 75x60 size of face
 
     Emotion face = new Emotion();
     face.setImage(emotion);
@@ -95,7 +96,7 @@ public class RenderScene extends Application {
     root.getChildren().add(mPane);
 
 
-    Scene scene = new Scene(root, 600, 370, null);//600x370 - size of scene
+    Scene scene = new Scene(root, 600, 370, null);// 600x370 - size of scene
     scene.getStylesheets().add((getClass().getResource("/CSS/style.css")).toExternalForm());
     roomStage.setScene(scene);
     roomStage.setResizable(false);

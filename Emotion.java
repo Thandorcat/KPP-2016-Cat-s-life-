@@ -21,6 +21,13 @@ public class Emotion {
       y = 1;
       x = num - 2;
     }
-    emotion.setViewport(new Rectangle2D(570 + (FACE_WIDTH * x), 25 + (FACE_HEIGHT * y), FACE_WIDTH, FACE_HEIGHT));//570x25 - start of faces on sprite
+    emotion.setViewport(
+        new Rectangle2D(570 + (FACE_WIDTH * x), 25 + (FACE_HEIGHT * y), FACE_WIDTH, FACE_HEIGHT));// 570x25
+                                                                                                  // -
+                                                                                                  // start
+                                                                                                  // of
+                                                                                                  // faces
+                                                                                                  // on
+                                                                                                  // sprite
   }
 }
