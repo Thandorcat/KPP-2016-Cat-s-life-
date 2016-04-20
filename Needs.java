@@ -1,3 +1,5 @@
+/** Needs logic, contains bars and buttons of needs */
+
 package needs;
 
 import javafx.beans.property.DoubleProperty;
@@ -19,6 +21,7 @@ public class Needs {
     prog = new SimpleDoubleProperty(0.7);
     bar.progressProperty().bind(prog);
     btn = new Button(name);
+    btn.setDisable(true);
     btn.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent e) {
@@ -44,7 +47,7 @@ public class Needs {
     return bar;
   }
 
-  public void tick() {
+  public void tick() {/** Subtract value in every timer's tick */
     if (prog.getValue() > minus) {
       prog.setValue(prog.getValue() - minus);
     } else {
@@ -53,7 +56,7 @@ public class Needs {
     btn.setDisable(false);
   }
 
-  public int getState() {
+  public int getState() {/** Returns current state of needs */
     if (prog.getValue() == -0.1)
       return 0;
     if (prog.getValue() >= 0.8)
@@ -64,5 +67,9 @@ public class Needs {
 
   public void restart() {
     prog.setValue(0.8);
+  }
+
+  public void fire() {/** Self press of button for bot */
+    btn.fire();
   }
 }

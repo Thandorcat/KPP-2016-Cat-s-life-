@@ -1,3 +1,5 @@
+/** Contains sprite of faces, changing faces */
+
 package emotion;
 
 import javafx.geometry.Rectangle2D;
@@ -12,7 +14,7 @@ public class Emotion {
     emotion = em;
   }
 
-  public void setView(int num) {
+  public void setView(int num) {/** Changing emotions depends of current state */
     int x, y;
     if (num < 2) {
       y = 0;

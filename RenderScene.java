@@ -1,3 +1,6 @@
+/**
+ * Creating and showing main stage, scene, and layout of game interface
+ */
 package render;
 
 import javafx.application.Application;
@@ -14,6 +17,8 @@ import needs.Needs;
 import panes.MenuPane;
 import emotion.Emotion;
 import timer.Timer;
+import cat.Cat;
+
 
 public class RenderScene extends Application {
   public Stage roomStage = null;
@@ -22,21 +27,29 @@ public class RenderScene extends Application {
   public void start(Stage primaryStage) {
     roomStage = new Stage(StageStyle.TRANSPARENT);
     StackPane root = new StackPane();
-    ImageView back = new ImageView("Sprites/back.jpg");
-
     AnchorPane anPane = new AnchorPane();
-    ImageView cat = new ImageView("Sprites/cats.png");
-    cat.setViewport(new Rectangle2D(0, 0, 142, 170));
-    ImageView table = new ImageView("Sprites/table.png");
+    ImageView back = null;
+    ImageView table = null;
+    ImageView emotion = null;
+    Cat cat = new Cat(0);/** Creating classes with sprites */
+    try {
+      back = new ImageView("Sprites/back.jpg");
 
-    ImageView emotion = new ImageView("Sprites/cats.png");
+      table = new ImageView("Sprites/table.png");
+
+      emotion = new ImageView("Sprites/cats.png");
+    } catch (Throwable e) {
+      System.err.println("error while setting up the image");
+    }
+
+
     emotion.setViewport(new Rectangle2D(570, 25 + 60, 75, 60));// 570x25 - start of faces on sprite,
                                                                // 75x60 size of face
 
     Emotion face = new Emotion();
     face.setImage(emotion);
 
-    Needs food = new Needs("Food!", 0.3, 0.1);
+    Needs food = new Needs("Food!", 0.3, 0.1); /** Creating needs classes */
     Button btnfood = food.getButton();
     btnfood.setPrefSize(130, 80);
     ProgressBar foodbar = food.getBar();
@@ -51,11 +64,9 @@ public class RenderScene extends Application {
     Timer timer = new Timer();
     timer.setNeeds(food, care);
     timer.setEmotion(face);
+    timer.setSpeed(2);
 
-    AnchorPane.setLeftAnchor(cat, 230.0);
-    AnchorPane.setTopAnchor(cat, 150.0);
-
-    AnchorPane.setLeftAnchor(table, 200.0);
+    AnchorPane.setLeftAnchor(table, 200.0); /** Positioning on pane all elements */
     AnchorPane.setTopAnchor(table, 250.0);
 
     AnchorPane.setLeftAnchor(emotion, 240.0);
@@ -76,9 +87,8 @@ public class RenderScene extends Application {
     AnchorPane.setLeftAnchor(csymb, 313.0);
     AnchorPane.setTopAnchor(csymb, 8.0);
 
-
-    root.getChildren().add(back);
-    anPane.getChildren().add(cat);
+    root.getChildren().add(back); /** Add them to pane */
+    anPane.getChildren().add(cat.getImView());
     anPane.getChildren().add(table);
     anPane.getChildren().add(emotion);
     anPane.getChildren().add(btnfood);
@@ -89,8 +99,9 @@ public class RenderScene extends Application {
     anPane.getChildren().add(csymb);
     anPane.setVisible(false);
 
-    MenuPane mPane = new MenuPane();
-    mPane.init(timer, anPane);
+    MenuPane mPane = new MenuPane();/** Menu class */
+    mPane.init(timer, anPane, cat);
+    timer.setPane(mPane);
 
     root.getChildren().add(anPane);
     root.getChildren().add(mPane);
