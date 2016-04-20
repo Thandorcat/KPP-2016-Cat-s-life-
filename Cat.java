@@ -12,7 +12,10 @@ public class Cat {
   final int CAT_WIDTH = 142;
   final int CAT_HEIGHT = 170;
 
-  public Cat(int num) {/** initial setting of cat */
+  /**
+   * initial setting of cat
+   */
+  public Cat(int num) {
     numcat = num;
     try {
       cat = new ImageView("Sprites/cats.png");
@@ -24,7 +27,10 @@ public class Cat {
     AnchorPane.setTopAnchor(cat, 150.0);
   }
 
-  public void chcat(int num) {/** Changing cat colour */
+  /**
+   * Changing cat colour
+   */
+  public void chcat(int num) {
     numcat = num;
     cat.setViewport(new Rectangle2D(CAT_WIDTH * numcat, 0, CAT_WIDTH, CAT_HEIGHT));
   }

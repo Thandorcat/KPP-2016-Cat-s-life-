@@ -16,7 +16,10 @@ public class Timer extends AnimationTimer {
   boolean auto;
 
   @Override
-  public void handle(long now) { /** Timer code, calls every ~1 sec */
+  /**
+   * Timer code, calls every ~1 sec
+   */
+  public void handle(long now) {
     if (times > speed * 30) {
       food.tick();
       care.tick();
@@ -48,7 +51,10 @@ public class Timer extends AnimationTimer {
     }
   }
 
-  public void setNeeds(Needs fd, Needs cr) { /** Add all classes to work with */
+  /**
+   * Add all classes to work with
+   */
+  public void setNeeds(Needs fd, Needs cr) {
     food = fd;
     care = cr;
   }
@@ -69,7 +75,10 @@ public class Timer extends AnimationTimer {
     auto = aut;
   }
 
-  public void restart() { /** Restart of timer and needs values in new game */
+  /**
+   * Restart of timer and needs values in new game
+   */
+  public void restart() {
     food.restart();
     care.restart();
     times = 0;

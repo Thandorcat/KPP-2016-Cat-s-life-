@@ -47,7 +47,10 @@ public class Needs {
     return bar;
   }
 
-  public void tick() {/** Subtract value in every timer's tick */
+  /**
+   * Subtract value in every timer's tick
+   */
+  public void tick() {
     if (prog.getValue() > minus) {
       prog.setValue(prog.getValue() - minus);
     } else {
@@ -56,7 +59,10 @@ public class Needs {
     btn.setDisable(false);
   }
 
-  public int getState() {/** Returns current state of needs */
+  /**
+   * Returns current state of needs
+   */
+  public int getState() {
     if (prog.getValue() == -0.1)
       return 0;
     if (prog.getValue() >= 0.8)
@@ -69,7 +75,10 @@ public class Needs {
     prog.setValue(0.8);
   }
 
-  public void fire() {/** Self press of button for bot */
+  /**
+   * Self press of button for bot
+   */
+  public void fire() {
     btn.fire();
   }
 }

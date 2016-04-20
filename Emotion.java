@@ -8,13 +8,18 @@ import javafx.scene.image.ImageView;
 public class Emotion {
   final int FACE_WIDTH = 75;
   final int FACE_HEIGHT = 60;
+  final int START_OF_FACES_X = 570;
+  final int START_OF_FACES_Y = 25;
   ImageView emotion;
 
   public void setImage(ImageView em) {
     emotion = em;
   }
 
-  public void setView(int num) {/** Changing emotions depends of current state */
+  /**
+   * Changing emotions depends of current state
+   */
+  public void setView(int num) {
     int x, y;
     if (num < 2) {
       y = 0;
@@ -23,13 +28,8 @@ public class Emotion {
       y = 1;
       x = num - 2;
     }
-    emotion.setViewport(
-        new Rectangle2D(570 + (FACE_WIDTH * x), 25 + (FACE_HEIGHT * y), FACE_WIDTH, FACE_HEIGHT));// 570x25
-                                                                                                  // -
-                                                                                                  // start
-                                                                                                  // of
-                                                                                                  // faces
-                                                                                                  // on
-                                                                                                  // sprite
+    emotion.setViewport(new Rectangle2D(START_OF_FACES_X + (FACE_WIDTH * x),
+        START_OF_FACES_Y + (FACE_HEIGHT * y), FACE_WIDTH, FACE_HEIGHT));
+
   }
 }

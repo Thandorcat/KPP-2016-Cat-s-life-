@@ -31,7 +31,6 @@ public class RenderScene extends Application {
     ImageView back = null;
     ImageView table = null;
     ImageView emotion = null;
-    Cat cat = new Cat(0);/** Creating classes with sprites */
     try {
       back = new ImageView("Sprites/back.jpg");
 
@@ -41,15 +40,20 @@ public class RenderScene extends Application {
     } catch (Throwable e) {
       System.err.println("error while setting up the image");
     }
-
-
+    /**
+     * Creating classes with sprites
+     */
+    Cat cat = new Cat(0);
     emotion.setViewport(new Rectangle2D(570, 25 + 60, 75, 60));// 570x25 - start of faces on sprite,
                                                                // 75x60 size of face
 
     Emotion face = new Emotion();
     face.setImage(emotion);
 
-    Needs food = new Needs("Food!", 0.3, 0.1); /** Creating needs classes */
+    /**
+     * Creating needs classes
+     */
+    Needs food = new Needs("Food!", 0.3, 0.1);
     Button btnfood = food.getButton();
     btnfood.setPrefSize(130, 80);
     ProgressBar foodbar = food.getBar();
@@ -66,7 +70,10 @@ public class RenderScene extends Application {
     timer.setEmotion(face);
     timer.setSpeed(2);
 
-    AnchorPane.setLeftAnchor(table, 200.0); /** Positioning on pane all elements */
+    /**
+     * Positioning on pane all elements
+     */
+    AnchorPane.setLeftAnchor(table, 200.0);
     AnchorPane.setTopAnchor(table, 250.0);
 
     AnchorPane.setLeftAnchor(emotion, 240.0);
@@ -87,7 +94,10 @@ public class RenderScene extends Application {
     AnchorPane.setLeftAnchor(csymb, 313.0);
     AnchorPane.setTopAnchor(csymb, 8.0);
 
-    root.getChildren().add(back); /** Add them to pane */
+    /**
+     * Add them to pane
+     */
+    root.getChildren().add(back);
     anPane.getChildren().add(cat.getImView());
     anPane.getChildren().add(table);
     anPane.getChildren().add(emotion);
@@ -99,6 +109,9 @@ public class RenderScene extends Application {
     anPane.getChildren().add(csymb);
     anPane.setVisible(false);
 
+    /**
+     * Menu class
+     */
     MenuPane mPane = new MenuPane();/** Menu class */
     mPane.init(timer, anPane, cat);
     timer.setPane(mPane);

@@ -21,6 +21,8 @@ import timer.Timer;
 import cat.Cat;
 
 public class MenuPane extends StackPane {
+  final int BTN_SIZE_X = 175;
+  final int BTN_SIZE_Y = 50;
   Button cont;
   Button newgame;
   Button exitgame;
@@ -49,22 +51,28 @@ public class MenuPane extends StackPane {
     dead = new Label("Your cat is dead!");
     dead.setVisible(false);
 
-    catstyle = new ChoiceBox<String>(FXCollections.observableArrayList("Orange", "Blue", "Grey",
-        "Brown"));/** Choose boxes to setting the game */
+    /**
+     * Choose boxes to setting the game
+     */
+    catstyle =
+        new ChoiceBox<String>(FXCollections.observableArrayList("Orange", "Blue", "Grey", "Brown"));
     catstyle.getSelectionModel().selectFirst();
-    catstyle.setPrefSize(175, 50);// 170x50 for same size of all buttons
+    catstyle.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
 
     level = new ChoiceBox<String>(
         FXCollections.observableArrayList("Calm cat", "Funny cat", "Naughty cat"));
     level.getSelectionModel().selectFirst();
-    level.setPrefSize(175, 50);
+    level.setPrefSize(BTN_SIZE_X, 50);
 
     auto = new ChoiceBox<String>(FXCollections.observableArrayList("Manual play", "Auto play"));
     auto.getSelectionModel().selectFirst();
-    auto.setPrefSize(175, 50);
+    auto.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
 
-    cont.setVisible(false);/** All menu buttons handlers */
-    cont.setPrefSize(175, 50);
+    /**
+     * All menu buttons handlers
+     */
+    cont.setVisible(false);
+    cont.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
     cont.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent e) {
@@ -74,7 +82,7 @@ public class MenuPane extends StackPane {
       }
     });
 
-    newgame.setPrefSize(175, 50);
+    newgame.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
     newgame.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent e) {
@@ -84,7 +92,7 @@ public class MenuPane extends StackPane {
       }
     });
 
-    start.setPrefSize(175, 50);
+    start.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
     start.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent e) {
@@ -97,7 +105,7 @@ public class MenuPane extends StackPane {
       }
     });
 
-    exitgame.setPrefSize(175, 50);
+    exitgame.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
     exitgame.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent e) {
@@ -113,6 +121,10 @@ public class MenuPane extends StackPane {
         setVisible(true);
       }
     });
+    
+    /**
+     * Placing button in left top corner
+     */
     AnchorPane.setLeftAnchor(pause, 15.0);
     AnchorPane.setTopAnchor(pause, 13.0);
 
