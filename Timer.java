@@ -17,14 +17,20 @@ public class Timer extends AnimationTimer {
 
   @Override
   /**
-   * Timer code, calls every ~1 sec
+   * Timer code, calls every 0.5 to 1.5 sec
    */
   public void handle(long now) {
+    /**
+     * 30 is ~0.5 sec
+     */
     if (times > speed * 30) {
       food.tick();
       care.tick();
       stfood = food.getState();
       stcare = care.getState();
+      /**
+       * Sending number of face 0...3
+       */
       if (stfood == 0) {
         emotion.setView(1);
         stop();

@@ -22,6 +22,15 @@ import cat.Cat;
 
 public class RenderScene extends Application {
   public Stage roomStage = null;
+  final double NEEDS_ADD = 0.3;
+  final double FOOD_SUB = 0.1;
+  final double CARE_SUB = 0.2;
+  final int FACE_WIDTH = 75;
+  final int FACE_HEIGHT = 60;
+  final int START_OF_FACES_X = 570;
+  final int START_OF_FACES_Y = 25;
+  final int SCENE_SIZE_X = 600;
+  final int SCENE_SIZE_Y = 370;
 
   @Override
   public void start(Stage primaryStage) {
@@ -44,8 +53,8 @@ public class RenderScene extends Application {
      * Creating classes with sprites
      */
     Cat cat = new Cat(0);
-    emotion.setViewport(new Rectangle2D(570, 25 + 60, 75, 60));// 570x25 - start of faces on sprite,
-                                                               // 75x60 size of face
+    emotion.setViewport(
+        new Rectangle2D(START_OF_FACES_X, START_OF_FACES_Y + FACE_HEIGHT, FACE_WIDTH, FACE_HEIGHT));
 
     Emotion face = new Emotion();
     face.setImage(emotion);
@@ -53,13 +62,13 @@ public class RenderScene extends Application {
     /**
      * Creating needs classes
      */
-    Needs food = new Needs("Food!", 0.3, 0.1);
+    Needs food = new Needs("Food!", NEEDS_ADD, FOOD_SUB);
     Button btnfood = food.getButton();
     btnfood.setPrefSize(130, 80);
     ProgressBar foodbar = food.getBar();
     ImageView fsymb = new ImageView("Sprites/foodsymb.png");
 
-    Needs care = new Needs("Care!", 0.3, 0.2);
+    Needs care = new Needs("Care!", NEEDS_ADD, CARE_SUB);
     Button btncare = care.getButton();
     btncare.setPrefSize(130, 80);
     ProgressBar carebar = care.getBar();
@@ -120,7 +129,7 @@ public class RenderScene extends Application {
     root.getChildren().add(mPane);
 
 
-    Scene scene = new Scene(root, 600, 370, null);// 600x370 - size of scene
+    Scene scene = new Scene(root, SCENE_SIZE_X, SCENE_SIZE_Y, null);
     scene.getStylesheets().add((getClass().getResource("/CSS/style.css")).toExternalForm());
     roomStage.setScene(scene);
     roomStage.setResizable(false);

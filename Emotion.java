@@ -21,6 +21,9 @@ public class Emotion {
    */
   public void setView(int num) {
     int x, y;
+    /**
+     * Converting number in face
+     */
     if (num < 2) {
       y = 0;
       x = num;

@@ -23,6 +23,8 @@ import cat.Cat;
 public class MenuPane extends StackPane {
   final int BTN_SIZE_X = 175;
   final int BTN_SIZE_Y = 50;
+  final int SCENE_SIZE_X = 600;
+  final int SCENE_SIZE_Y = 370;
   Button cont;
   Button newgame;
   Button exitgame;
@@ -121,7 +123,7 @@ public class MenuPane extends StackPane {
         setVisible(true);
       }
     });
-    
+
     /**
      * Placing button in left top corner
      */
@@ -130,6 +132,9 @@ public class MenuPane extends StackPane {
 
     catstyle.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
       public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+        /**
+         * Selecting number of cat
+         */
         if (new_val.equals("Orange")) {
           catbody.chcat(0);
         }
@@ -146,6 +151,9 @@ public class MenuPane extends StackPane {
     });
     level.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
       public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+        /**
+         * Selecting speed
+         */
         if (new_val.equals("Calm cat")) {
           timer.setSpeed(3);
         }
@@ -170,11 +178,14 @@ public class MenuPane extends StackPane {
 
 
     gamePane.getChildren().add(pause);
-    back = new Rectangle(600, 370, Color.WHITE);// 600x370 - size of scene
+    back = new Rectangle(SCENE_SIZE_X, SCENE_SIZE_Y, Color.WHITE);
     back.setOpacity(0.5);
     getChildren().add(back);
     setAlignment(Pos.CENTER);
 
+    /**
+     * Setting menu panes
+     */
     newset = new FlowPane();
     newset.setOrientation(Orientation.VERTICAL);
     newset.setAlignment(Pos.CENTER);

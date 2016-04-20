@@ -23,6 +23,9 @@ public class Cat {
       System.err.println("error while setting up the image");
     }
     cat.setViewport(new Rectangle2D(CAT_WIDTH * numcat, 0, CAT_WIDTH, CAT_HEIGHT));
+    /**
+     * placing cat in the center
+     */
     AnchorPane.setLeftAnchor(cat, 230.0);
     AnchorPane.setTopAnchor(cat, 150.0);
   }
