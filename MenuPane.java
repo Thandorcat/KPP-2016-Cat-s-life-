@@ -66,7 +66,8 @@ public class MenuPane extends StackPane {
     level.getSelectionModel().selectFirst();
     level.setPrefSize(BTN_SIZE_X, 50);
 
-    auto = new ChoiceBox<String>(FXCollections.observableArrayList("Manual play", "Auto play"));
+    auto = new ChoiceBox<String>(
+        FXCollections.observableArrayList("Manual play", "Auto play", "Replay"));
     auto.getSelectionModel().selectFirst();
     auto.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
 
@@ -99,11 +100,11 @@ public class MenuPane extends StackPane {
       @Override
       public void handle(ActionEvent e) {
         setVisible(false);
+        timer.restart();
         gamePane.setVisible(true);
         cont.setVisible(true);
         btns.setVisible(true);
         newset.setVisible(false);
-        timer.restart();
       }
     });
 
@@ -169,9 +170,15 @@ public class MenuPane extends StackPane {
       public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
         if (new_val.equals("Manual play")) {
           timer.setAuto(false);
+          timer.setReplay(false);
         }
         if (new_val.equals("Auto play")) {
           timer.setAuto(true);
+          timer.setReplay(false);
+        }
+        if (new_val.equals("Replay")) {
+          timer.setAuto(false);
+          timer.setReplay(true);
         }
       }
     });
@@ -198,6 +205,8 @@ public class MenuPane extends StackPane {
     btns.setAlignment(Pos.CENTER);
     btns.setVgap(10);
     btns.getChildren().addAll(dead, cont, newgame, exitgame);
+
+    auto.getSelectionModel().selectFirst();
 
     getChildren().addAll(btns, newset);
 

@@ -7,11 +7,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import save.Save;
 
 public class Needs {
   Button btn;
   ProgressBar bar;
   DoubleProperty prog;
+  Save logs;
   double plus, minus;
 
   public Needs(String name, double pl, double min) {
@@ -33,8 +35,9 @@ public class Needs {
           } else {
             prog.setValue(prog.getValue() + plus);
           }
-          btn.setDisable(true);
         }
+        btn.setDisable(true);
+        logs.pressed(minus);
       }
     });
   }
@@ -45,6 +48,10 @@ public class Needs {
 
   public ProgressBar getBar() {
     return bar;
+  }
+
+  public void setSave(Save lg) {
+    logs = lg;
   }
 
   /**

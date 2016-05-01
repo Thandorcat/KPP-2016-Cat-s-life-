@@ -13,11 +13,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import needs.Needs;
 import panes.MenuPane;
 import emotion.Emotion;
 import timer.Timer;
 import cat.Cat;
+import save.Save;
 
 
 public class RenderScene extends Application {
@@ -59,17 +61,21 @@ public class RenderScene extends Application {
     Emotion face = new Emotion();
     face.setImage(emotion);
 
+    Save logs = new Save();
+
     /**
      * Creating needs classes
      */
     Needs food = new Needs("Food!", NEEDS_ADD, FOOD_SUB);
     Button btnfood = food.getButton();
+    food.setSave(logs);
     btnfood.setPrefSize(130, 80);
     ProgressBar foodbar = food.getBar();
     ImageView fsymb = new ImageView("Sprites/foodsymb.png");
 
     Needs care = new Needs("Care!", NEEDS_ADD, CARE_SUB);
     Button btncare = care.getButton();
+    care.setSave(logs);
     btncare.setPrefSize(130, 80);
     ProgressBar carebar = care.getBar();
     ImageView csymb = new ImageView("Sprites/care.png");
@@ -78,6 +84,9 @@ public class RenderScene extends Application {
     timer.setNeeds(food, care);
     timer.setEmotion(face);
     timer.setSpeed(2);
+    timer.setSave(logs);
+
+
 
     /**
      * Positioning on pane all elements
