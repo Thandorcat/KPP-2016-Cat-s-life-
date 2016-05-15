@@ -3,6 +3,8 @@
 package timer;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.image.ImageView;
+
 import java.util.Random;
 
 import needs.Needs;
@@ -11,15 +13,20 @@ import panes.MenuPane;
 import save.Save;
 
 public class Timer extends AnimationTimer {
-  int stfood, stcare, times = 0;
+  final int TICK_TIME = 30;
+  final int HALF_TICK_TIME = 15;
+  int stfood, times = 0;
+  ImageView face;
   Needs food, care;
   Emotion emotion;
   MenuPane mPane;
   Random random;
   Save logs;
+  String file_for_read = null;
   int speed;
   boolean auto;
   boolean replay;
+  boolean emstart = true;
 
   @Override
   /**
@@ -29,49 +36,37 @@ public class Timer extends AnimationTimer {
     /**
      * 30 is ~0.5 sec
      */
-    if (times > speed * 30) {
+    if (times > speed * TICK_TIME) {
       food.tick();
       care.tick();
       if (!replay) {
         logs.tick();
       }
       stfood = food.getState();
-      stcare = care.getState();
       /**
-       * Sending number of face 0...3
+       * Checking if cat is dead
        */
       if (stfood == 0) {
-        emotion.setView(1);
         stop();
         if (!replay) {
           logs.write();
         }
         mPane.theEnd();
-      } else {
-        if (stcare == 0) {
-          emotion.setView(0);
-        } else {
-          if (stcare == 2 && stfood == 2) {
-            emotion.setView(3);
-          } else {
-            emotion.setView(2);
-          }
-        }
       }
       times = 0;
     }
     /**
      * Bot logic, just random press on buttons
      */
-    if (times == speed * 15 && auto) {
+    if (times == speed * HALF_TICK_TIME && auto) {
       random = new Random();
-      int x = random.nextInt(5);
-      if (x == 3) {
+      int x = random.nextInt(4);
+      if (x == 1) {
         food.fire();
       }
       random = new Random();
-      int y = random.nextInt(4);
-      if (y == 3) {
+      int y = random.nextInt(3);
+      if (y == 1) {
         care.fire();
       }
       times++;
@@ -80,7 +75,7 @@ public class Timer extends AnimationTimer {
      * Replay, saved values: 0 - pressed nothing 1 - pressed food 2 - pressed care 3 - pressed two
      * buttons -1 - end of game
      */
-    if (times == speed * 15 && replay) {
+    if (times == speed * HALF_TICK_TIME && replay) {
       int val = logs.read();
       switch (val) {
         case 1: {
@@ -116,8 +111,8 @@ public class Timer extends AnimationTimer {
     care = cr;
   }
 
-  public void setEmotion(Emotion em) {
-    emotion = em;
+  public void setEmotionImage(ImageView fc) {
+    face = fc;
   }
 
   public void setSpeed(int spd) {
@@ -132,6 +127,10 @@ public class Timer extends AnimationTimer {
     auto = aut;
   }
 
+  public void setFile(String file) {
+    file_for_read = file;
+  }
+
   public void setSave(Save lg) {
     logs = lg;
   }
@@ -141,18 +140,20 @@ public class Timer extends AnimationTimer {
   }
 
   /**
-   * Restart of timer and needs values in new game,
-   * and initialising files for read or write 
+   * Restart of timer and needs values in new game, and initialising files for read or write
    */
   public void restart() {
     food.restart();
     care.restart();
     times = 0;
-    emotion.setView(2);
+    emotion = new Emotion();
+    emotion.setImage(face);
+    emotion.setNeeds(food, care);
+    emotion.start();
     if (replay) {
-      logs.initread();
+      speed = logs.initread(file_for_read);
     } else {
-      logs.init();
+      logs.init(auto, speed);
     }
     start();
   }

@@ -15,45 +15,63 @@ public class Save {
 
   final double FOOD_SUB = 0.1;
   final double CARE_SUB = 0.2;
-  File file, read;
+  final String DIR_NAME = "Saves";
+  int num_of_steps = 0;
+  File dir ,file, read;
   File[] files;
   FileChannel save;
   FileChannel load;
   ByteBuffer buff;
   boolean fpressed, cpressed;
 
-  public Save() {
-    file = new File("Save.txt");
-  }
-
-  public void init() {
+  public void init(boolean auto, int speed) {
     fpressed = cpressed = false;
     buff = ByteBuffer.allocate(1024);
+    num_of_steps = 0;
+    buff.putInt(0);
+    if(auto){
+      buff.putInt(1);
+    } else {
+      buff.putInt(0);
+    }
+    buff.putInt(speed);
   }
 
   /**
-   * Choosing saved game via FileChooser
+   * Reading from file or choosing via filechooser 
    */
   @SuppressWarnings("resource")
-  public void initread() {
+  public int initread(String file) {
     try {
-      final FileChooser fileChooser = new FileChooser();
-      fileChooser.setInitialDirectory(new java.io.File("C:/"));
-      fileChooser.setTitle("Âûáðàòü ôàéë ñ ñîõðàíåíèåì");
-      read = fileChooser.showOpenDialog(null);
+      if(file.equals("Open...")){
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(
+          new java.io.File("C:\\Users\\Thandor-Laptop\\workspace\\Cat's life\\Saves"));
+        fileChooser.getExtensionFilters().add(
+          new FileChooser.ExtensionFilter(" catsv", "*.catsv"));
+        fileChooser.setTitle("Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã´Ã Ã©Ã« Ã± Ã±Ã®ÃµÃ°Ã Ã­Ã¥Ã­Ã¨Ã¥Ã¬");
+        read = null;
+        while(read==null){
+          read = fileChooser.showOpenDialog(null);
+        }
+      } else {
+        read =  new File(DIR_NAME+'\\'+file);
+      }
       load = new FileInputStream(read).getChannel();
       long len = load.size();
       buff = ByteBuffer.allocate((int) (len));
       load.read(buff);
       buff.rewind();
-      buff.rewind();
-      buff.getInt();
       load.close();
+      buff.getInt();
+      buff.getInt();
+      return buff.getInt();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return 0;
   }
 
   /**
@@ -87,18 +105,25 @@ public class Save {
         buff.putInt(0);
       }
     }
+    num_of_steps++;
     fpressed = cpressed = false;
   }
 
   @SuppressWarnings("resource")
   /**
-   * writing game in file
+   * Writing game in file
    */
   public void write() {
     buff.putInt(-1);
     buff.limit(buff.position());
     buff.rewind();
+    buff.putInt(num_of_steps);
+    buff.rewind();
     try {
+      dir = new File(DIR_NAME);
+      files = dir.listFiles(); 
+      int len = files.length;
+      file = new File(DIR_NAME+'\\'+Integer.toString(len+1)+".catsv");
       save = new FileOutputStream(file).getChannel();
       save.write(buff);
       save.close();

@@ -12,34 +12,48 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import timer.Timer;
 import cat.Cat;
+import saveloader.SaveLoader;
 
 public class MenuPane extends StackPane {
   final int BTN_SIZE_X = 175;
   final int BTN_SIZE_Y = 50;
+  final int TABLE_SIZE_X = 250;
+  final int TABLE_SIZE_Y = 250;
   final int SCENE_SIZE_X = 600;
   final int SCENE_SIZE_Y = 370;
+  String choosenfile;
   Button cont;
   Button newgame;
   Button exitgame;
   Button pause;
   Button start;
+  Button startsave;
+  Button sortjava;
+  Button sortscala;
+  Button resetsave;
   Label dead;
   ChoiceBox<String> catstyle;
   ChoiceBox<String> level;
   ChoiceBox<String> auto;
+  ListView<String> saves;
   Rectangle back;
   Cat catbody;
   Timer timer;
   AnchorPane gamePane;
+  AnchorPane savePane;
   FlowPane newset;
   FlowPane btns;
+  SaveLoader loader;
+  boolean replay = false;
 
   public void init(Timer tmr, AnchorPane gPane, Cat catb) {
     timer = tmr;
@@ -49,8 +63,16 @@ public class MenuPane extends StackPane {
     newgame = new Button("New Game");
     exitgame = new Button("Exit");
     start = new Button("Start");
+    startsave = new Button("Start");
+    sortjava = new Button("Sort in Java");
+    sortscala = new Button("Sort in Scala");
+    resetsave = new Button("Reset");
     pause = new Button("Pause");
-    dead = new Label("Your cat is dead!");
+    loader = new SaveLoader();
+
+    dead = new Label("Your ñat is dead!");
+    dead.setTextAlignment(TextAlignment.CENTER);
+    dead.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
     dead.setVisible(false);
 
     /**
@@ -64,7 +86,7 @@ public class MenuPane extends StackPane {
     level = new ChoiceBox<String>(
         FXCollections.observableArrayList("Calm cat", "Funny cat", "Naughty cat"));
     level.getSelectionModel().selectFirst();
-    level.setPrefSize(BTN_SIZE_X, 50);
+    level.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
 
     auto = new ChoiceBox<String>(
         FXCollections.observableArrayList("Manual play", "Auto play", "Replay"));
@@ -99,12 +121,35 @@ public class MenuPane extends StackPane {
     start.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent e) {
+        if (!replay) {
+          setVisible(false);
+          timer.restart();
+          gamePane.setVisible(true);
+          cont.setVisible(true);
+          btns.setVisible(true);
+          newset.setVisible(false);
+        } else {
+          loader.fillData();
+          saves.setItems(loader.getList());
+          sortjava.setText("Sort in Java");
+          sortscala.setText("Sort in Scala");
+          newset.setVisible(false);
+          savePane.setVisible(true);
+        }
+      }
+    });
+
+    startsave.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
+    startsave.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent e) {
         setVisible(false);
+        timer.setFile(choosenfile);
         timer.restart();
         gamePane.setVisible(true);
         cont.setVisible(true);
         btns.setVisible(true);
-        newset.setVisible(false);
+        savePane.setVisible(false);
       }
     });
 
@@ -122,6 +167,39 @@ public class MenuPane extends StackPane {
         timer.stop();
         gamePane.setVisible(false);
         setVisible(true);
+      }
+    });
+
+    sortjava.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
+    sortjava.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent e) {
+        long time = System.currentTimeMillis();
+        loader.sortJava();
+        time = System.currentTimeMillis() - time;
+        saves.setItems(loader.getList());
+        sortjava.setText("Java: " + time + "ms");
+      }
+    });
+
+    sortscala.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
+    sortscala.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent e) {
+        long time = System.currentTimeMillis();
+        loader.sortScala();
+        time = System.currentTimeMillis() - time;
+        saves.setItems(loader.getList());
+        sortscala.setText("Scala: " + time + "ms");
+      }
+    });
+
+    resetsave.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
+    resetsave.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent e) {
+        loader.fillData();
+        saves.setItems(loader.getList());
       }
     });
 
@@ -171,17 +249,41 @@ public class MenuPane extends StackPane {
         if (new_val.equals("Manual play")) {
           timer.setAuto(false);
           timer.setReplay(false);
+          catstyle.setDisable(false);
+          level.setDisable(false);
+          start.setText("Start");
+          replay = false;
         }
         if (new_val.equals("Auto play")) {
           timer.setAuto(true);
           timer.setReplay(false);
+          catstyle.setDisable(false);
+          level.setDisable(false);
+          start.setText("Start");
+          replay = false;
         }
         if (new_val.equals("Replay")) {
           timer.setAuto(false);
+          catstyle.setDisable(true);
+          level.setDisable(true);
           timer.setReplay(true);
+          start.setText("Next");
+          replay = true;
         }
       }
     });
+    
+    /**
+     * Creating listview for saves
+     */
+    saves = new ListView<String>();
+    saves.setPrefSize(TABLE_SIZE_X, TABLE_SIZE_Y);
+    saves.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+      public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+        choosenfile = new_val;
+      }
+    });
+    saves.getSelectionModel().selectFirst();
 
 
     gamePane.getChildren().add(pause);
@@ -206,13 +308,35 @@ public class MenuPane extends StackPane {
     btns.setVgap(10);
     btns.getChildren().addAll(dead, cont, newgame, exitgame);
 
-    auto.getSelectionModel().selectFirst();
+    /**
+     * Positioning on pane save list and buttons
+     */
+    savePane = new AnchorPane();
+    AnchorPane.setLeftAnchor(saves, 50.0);
+    AnchorPane.setTopAnchor(saves, 30.0);
 
-    getChildren().addAll(btns, newset);
+    AnchorPane.setLeftAnchor(startsave, 220.0);
+    AnchorPane.setTopAnchor(startsave, 300.0);
+
+    AnchorPane.setLeftAnchor(sortjava, 350.0);
+    AnchorPane.setTopAnchor(sortjava, 60.0);
+    AnchorPane.setLeftAnchor(sortscala, 350.0);
+    AnchorPane.setTopAnchor(sortscala, 120.0);
+    AnchorPane.setLeftAnchor(resetsave, 350.0);
+    AnchorPane.setTopAnchor(resetsave, 180.0);
+
+    savePane.getChildren().addAll(saves, startsave, sortjava, sortscala, resetsave);
+    savePane.setVisible(false);
+
+
+    getChildren().addAll(btns, newset, savePane);
 
   }
 
-  public void theEnd() { /** End of game (cat is dead) */
+  /**
+   *  End of game (cat is dead) 
+   */
+  public void theEnd() { 
     cont.setVisible(false);
     dead.setVisible(true);
     gamePane.setVisible(false);

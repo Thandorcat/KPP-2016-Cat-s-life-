@@ -8,15 +8,16 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import needs.Needs;
 import panes.MenuPane;
-import emotion.Emotion;
 import timer.Timer;
 import cat.Cat;
 import save.Save;
@@ -58,8 +59,6 @@ public class RenderScene extends Application {
     emotion.setViewport(
         new Rectangle2D(START_OF_FACES_X, START_OF_FACES_Y + FACE_HEIGHT, FACE_WIDTH, FACE_HEIGHT));
 
-    Emotion face = new Emotion();
-    face.setImage(emotion);
 
     Save logs = new Save();
 
@@ -80,9 +79,10 @@ public class RenderScene extends Application {
     ProgressBar carebar = care.getBar();
     ImageView csymb = new ImageView("Sprites/care.png");
 
+
     Timer timer = new Timer();
     timer.setNeeds(food, care);
-    timer.setEmotion(face);
+    timer.setEmotionImage(emotion);
     timer.setSpeed(2);
     timer.setSave(logs);
 
@@ -138,10 +138,11 @@ public class RenderScene extends Application {
     root.getChildren().add(mPane);
 
 
-    Scene scene = new Scene(root, SCENE_SIZE_X, SCENE_SIZE_Y, null);
+    Scene scene = new Scene(root, SCENE_SIZE_X, SCENE_SIZE_Y, Color.CYAN);
     scene.getStylesheets().add((getClass().getResource("/CSS/style.css")).toExternalForm());
     roomStage.setScene(scene);
     roomStage.setResizable(false);
+    roomStage.getIcons().add(new Image("Sprites/icon.png"));
     roomStage.show();
   }
 
