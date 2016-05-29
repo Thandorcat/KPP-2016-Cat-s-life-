@@ -1,0 +1,57 @@
+.button {
+	-fx-background-color: 
+        #ecebe9,
+        rgba(0,0,0,0.05),
+        #FFAE05;
+   	-fx-background-insets: 0,9 9 8 9,9,10,11;
+	-fx-font-size: 17pt;
+}
+.button:hover {
+	-fx-background-color: 
+        #ecebe9,
+        rgba(0,0,0,0.05),
+        orange;
+	-fx-font-size: 17pt;
+    	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 2, 0.0 , 0 , 1);
+}
+.button:pressed {
+	-fx-background-color: 
+        #ecebe9,
+        rgba(0,0,0,0.05),
+        orange;
+	-fx-font-size: 17pt;
+    	-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.25) , 2, 0.0 , 0 , 1);
+}
+.progress-bar { -fx-accent: #FFAE05; }
+
+.choice-box { 
+		-fx-background-color: 
+        #ecebe9,
+        rgba(0,0,0,0.05),
+        #FFAE05;
+        -fx-background-insets: 0,9 9 8 9,9,10,11;
+	    -fx-font-size: 17pt;
+      	-fx-mark-color: orange ; }
+      	
+.choice-box .menu-item:focused {
+  -fx-background-color: #FFAE05; 
+}
+
+.label {
+	-fx-font-size: 17pt;
+}
+
+.list-cell:focused{
+	-fx-background-color: #FFAE05;
+}
+.list-view{
+	-fx-background-color: #FFAE05;
+	-fx-background-insets: 0,9 9 8 9,9,10,11;
+	-fx-font-size: 16pt;
+}
+
+.list-view:focused{
+	-fx-background-color: #FFAE05;
+}
+	
+

@@ -45,11 +45,9 @@ public class Save {
     try {
       if(file.equals("Open...")){
         final FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(
-          new java.io.File("C:\\Users\\Thandor-Laptop\\workspace\\Cat's life\\Saves"));
-        fileChooser.getExtensionFilters().add(
-          new FileChooser.ExtensionFilter(" catsv", "*.catsv"));
-        fileChooser.setTitle("Г‚Г»ГЎГ°Г ГІГј ГґГ Г©Г« Г± Г±Г®ГµГ°Г Г­ГҐГ­ГЁГҐГ¬");
+        fileChooser.setInitialDirectory(new java.io.File("C:\\Users\\Thandor-Laptop\\workspace\\Cat's life\\Saves"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(" catsv", "*.catsv"));
+        fileChooser.setTitle("Выбрать файл с сохранением");
         read = null;
         while(read==null){
           read = fileChooser.showOpenDialog(null);

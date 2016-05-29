@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+
 import saveloader.SaveInfo;
 import scala.ScalaSort;
 import javafx.collections.FXCollections;
@@ -18,26 +20,41 @@ public class SaveLoader {
   ObservableList<String> list;
   ScalaSort scala = new ScalaSort();
   SaveInfo[] data;
+  int[] length;
+  ArrayList<Integer> press = new ArrayList<Integer>();
+  int[] played;
 
   /** 
    * Searching for files and writing in data array 
    */
   @SuppressWarnings("resource")
   public void fillData() {
+    int lng;
     dir = new File(DIR_NAME);
     files = dir.listFiles();
     data = new SaveInfo[files.length];
+    length = new int[files.length];
+    played = new int[files.length];
     for (int i = 0; i < files.length; i++) {
       try {
         File read = new File(DIR_NAME + '\\' + files[i].getName());
         FileChannel load;
         load = new FileInputStream(read).getChannel();
         long len = load.size();
-        ByteBuffer buff = ByteBuffer.allocate((int) (len));
+        ByteBuffer buff = ByteBuffer.allocate((int)len);
         load.read(buff);
         buff.rewind();
         load.close();
-        data[i] = new SaveInfo(files[i].getName(), buff.getInt());
+        System.out.println(i);
+        lng = buff.getInt();
+        data[i] = new SaveInfo(files[i].getName(), lng);
+        length[i] = lng;
+        played[i] = buff.getInt();
+        buff.getInt();
+        for(int j = 0;j<lng-1;j++){
+          press.add(buff.getInt());
+        }
+        
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -99,4 +116,16 @@ public class SaveLoader {
     }
   }
 
+  public Integer[] getPress(){
+    return press.toArray(new Integer[press.size()]);
+  }
+  
+  public int[] getPlayed(){
+    return played;
+  }
+  
+  public int[] getLength(){
+    return length;
+  }
+  
 }

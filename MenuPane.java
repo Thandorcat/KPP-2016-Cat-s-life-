@@ -22,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import timer.Timer;
 import cat.Cat;
 import saveloader.SaveLoader;
+import panes.StatPane;
 
 public class MenuPane extends StackPane {
   final int BTN_SIZE_X = 175;
@@ -31,27 +32,35 @@ public class MenuPane extends StackPane {
   final int SCENE_SIZE_X = 600;
   final int SCENE_SIZE_Y = 370;
   String choosenfile;
+  
   Button cont;
   Button newgame;
   Button exitgame;
   Button pause;
   Button start;
+  
   Button startsave;
   Button sortjava;
   Button sortscala;
   Button resetsave;
+  Button stat;
   Label dead;
+  
   ChoiceBox<String> catstyle;
   ChoiceBox<String> level;
   ChoiceBox<String> auto;
   ListView<String> saves;
+  
   Rectangle back;
   Cat catbody;
   Timer timer;
+  
   AnchorPane gamePane;
   AnchorPane savePane;
   FlowPane newset;
   FlowPane btns;
+  StatPane statPane;
+  
   SaveLoader loader;
   boolean replay = false;
 
@@ -66,6 +75,7 @@ public class MenuPane extends StackPane {
     startsave = new Button("Start");
     sortjava = new Button("Sort in Java");
     sortscala = new Button("Sort in Scala");
+    stat = new Button("Statistic");
     resetsave = new Button("Reset");
     pause = new Button("Pause");
     loader = new SaveLoader();
@@ -202,6 +212,16 @@ public class MenuPane extends StackPane {
         saves.setItems(loader.getList());
       }
     });
+    
+    stat.setPrefSize(BTN_SIZE_X, BTN_SIZE_Y);
+    stat.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent e) {
+        statPane.getStat();
+        savePane.setVisible(false);
+        statPane.setVisible(true);
+      }
+    });
 
     /**
      * Placing button in left top corner
@@ -319,17 +339,24 @@ public class MenuPane extends StackPane {
     AnchorPane.setTopAnchor(startsave, 300.0);
 
     AnchorPane.setLeftAnchor(sortjava, 350.0);
-    AnchorPane.setTopAnchor(sortjava, 60.0);
+    AnchorPane.setTopAnchor(sortjava, 40.0);
     AnchorPane.setLeftAnchor(sortscala, 350.0);
-    AnchorPane.setTopAnchor(sortscala, 120.0);
+    AnchorPane.setTopAnchor(sortscala, 100.0);
     AnchorPane.setLeftAnchor(resetsave, 350.0);
-    AnchorPane.setTopAnchor(resetsave, 180.0);
+    AnchorPane.setTopAnchor(resetsave, 160.0);
+    AnchorPane.setLeftAnchor(stat, 350.0);
+    AnchorPane.setTopAnchor(stat, 220.0);
+    
 
-    savePane.getChildren().addAll(saves, startsave, sortjava, sortscala, resetsave);
+    savePane.getChildren().addAll(saves, startsave, sortjava, sortscala, resetsave, stat);
     savePane.setVisible(false);
+    
+    statPane = new StatPane(savePane, loader );
+    statPane.setVisible(false);
+    
 
 
-    getChildren().addAll(btns, newset, savePane);
+    getChildren().addAll(btns, newset, savePane, statPane);
 
   }
 
