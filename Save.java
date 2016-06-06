@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import save.SaveParser;
 
 import javafx.stage.FileChooser;
 
@@ -23,6 +24,7 @@ public class Save {
   FileChannel load;
   ByteBuffer buff;
   boolean fpressed, cpressed;
+  SaveParser parser = new SaveParser();
 
   public void init(boolean auto, int speed) {
     fpressed = cpressed = false;
@@ -61,9 +63,14 @@ public class Save {
       load.read(buff);
       buff.rewind();
       load.close();
-      buff.getInt();
-      buff.getInt();
-      return buff.getInt();
+      /**
+       * Sending values to parser and displaying result in console
+       */
+      System.out.println(parser.parse(buff.getInt()));
+      System.out.println(parser.parse(buff.getInt()==1));
+      int speed = buff.getInt();
+      System.out.println(parser.parse((double)speed));
+      return speed;
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -139,6 +146,7 @@ public class Save {
    */
   public int read() {
     int val = buff.getInt();
+    System.out.println(parser.parse(val));
     return val;
   }
 }
